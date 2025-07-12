@@ -1,0 +1,9 @@
+.git/
+.github/
+target/
+tests/
+!tests/scripts/
+*.md
+*.snap
+mutants.out/
+mutants.out.old/
