@@ -27,7 +27,6 @@ jobs:
           CI: true
           RUSTFLAGS: -Cinstrument-coverage
           LLVM_PROFILE_FILE: asw-sigv4-proxy-%p-%m.profraw
-          RUST_LOG: debug
         run: |
           cargo build
           cargo test

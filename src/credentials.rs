@@ -132,7 +132,7 @@ mod tests {
         Some(Duration::from_secs(3600)),
         Some(Duration::from_secs(3540))
     )]
-    fn test_calc_refresh_wibdow(
+    fn test_calc_refresh_window(
         #[case] signature_lifetime: Option<Duration>,
         #[case] credentials_lifetime: Option<Duration>,
         #[case] expected: Option<Duration>,
