@@ -153,7 +153,7 @@ and deploy it to your K8s cluster:
 helm install aws-sigv4-proxy alex-karpenko/aws-sigv4-proxy -f my-values.yaml
 ```
 
-Please explore the default chart's [`values.yaml`](https://github.com/alex-karpenko/helm-charts/blob/main/aws-sigv4-proxy/values.yaml) file to get known about all possible parameters.
+Please explore the default chart's [`values.yaml`](https://github.com/alex-karpenko/helm-charts/blob/main/charts/aws-sigv4-proxy/values.yaml) file to get known about all possible parameters.
 
 ### Build your own binary
 
