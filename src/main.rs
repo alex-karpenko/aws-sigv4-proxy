@@ -15,7 +15,7 @@ async fn main() -> anyhow::Result<()> {
     let credentials_provider = CachedCredentials::new(&aws_config, &cfg.assume_role, cfg.signature_lifetime).await?;
     debug!(?cfg, "with aws config");
 
-    info!(service = ?cfg.service, region = ?cfg.region, forward_to = %cfg.forward_to, "Current configuration");
+    info!(service = %cfg.service.as_ref().unwrap(), region = %cfg.region.as_ref().unwrap(), forward_to = %cfg.forward_to, "Current configuration");
 
     let (shutdown_tx, _) = watch::channel(false);
     let mut signal_waiter = signals::SignalHandler::new()?;
