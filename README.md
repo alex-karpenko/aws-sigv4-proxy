@@ -14,10 +14,6 @@ which are unable to authenticate themselves against AWS.
 
 For now, this is just a pet project in development. It's not thoroughly tested yet, so patches will be here soon.
 
-There are at least two other projects with the similar functionality, but unfortunately, with some minor issues:
-- [aws-es-proxy](https://github.com/abutaha/aws-es-proxy) by [abutaha](https://github.com/abutaha) - isn't supported for more than 2 years;
-- [aws-sigv4-proxy](https://github.com/awslabs/aws-sigv4-proxy) by [awslabs](https://github.com/awslabs) - has at least [one unresolved issue](https://github.com/awslabs/aws-sigv4-proxy/issues/67) which makes it unusable in some circumstances I encountered with.
-
 ## How to use
 
 The easiest way to run `aws-sigv4-proxy` is to use [Docker image](#docker-image).
@@ -177,7 +173,15 @@ target/release/aws-sigv4-proxy --help
 ## TODO
 
 - [ ] Improve errors handling.
+- [ ] Improve unit tests.
+- [ ] More and hard testing with real load in real environments.
 - [ ] Add metrics.
+
+## Credits
+
+There are at least two other projects with the similar functionality, but unfortunately, with some minor issues:
+- [aws-es-proxy](https://github.com/abutaha/aws-es-proxy) by [abutaha](https://github.com/abutaha) - isn't supported for more than 2 years;
+- [aws-sigv4-proxy](https://github.com/awslabs/aws-sigv4-proxy) by [awslabs](https://github.com/awslabs) - has at least [one unresolved issue](https://github.com/awslabs/aws-sigv4-proxy/issues/67) which makes it unusable in some circumstances I encountered with.
 
 ## License
 
