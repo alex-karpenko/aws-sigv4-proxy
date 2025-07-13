@@ -73,11 +73,11 @@ Options:
           Print version
 ```
 
-### `--forward-to`
+#### `--forward-to`
 The only mandatory parameter is URL of the AWS service to forward signed requests to.
 For example, URL of the OpenSearch VPC endpoint or S3 bucket root.
 
-### `--service`, `--region`
+#### `--service`, `--region`
 
 By parsing forward-to URL, `aws-sigv4-proxy` tris to resolve service to sign requests for.
 In case it's impossible to detect service, it should be implicitly specified using `--service` option.
@@ -85,14 +85,14 @@ In case it's impossible to detect service, it should be implicitly specified usi
 The same is about service's region: `aws-sigv4-proxy` tries to determine a region from the current AWS config,
 but it may be specified (or overridden) implicitly using `--region` option.
 
-### `--assume-role`
+#### `--assume-role`
 
 It's possible to specify an IAM role ARN to use for signing requests.
 In such a case current AWS IAM entity has to have permission to assume that role.
 
 Another way to achieve this is to specify a role to assume in AWS config.
 
-### `--listen-on`, `--utility-port`
+#### `--listen-on`, `--utility-port`
 
 By default, proxy accepts requests on all host's IP addresses and port 8080.
 This may be overridden using `--listen-on` option.
@@ -100,19 +100,19 @@ This may be overridden using `--listen-on` option.
 Utility port is used to response on health checks on `/health` path
 and to provide Prometheus metrics on `/metrics` path (isn't implemented yet).
 
-### `--connect-timeout`, `--request-timeout`
+#### `--connect-timeout`, `--request-timeout`
 
 Connect timeout (in seconds) defines maximum time from opening connection to the target service endpoint up to accepting it by remote.
 
 Request timeout (in seconds) is a maximum time from accepting request by remote up to getting response.
 
-### `--signature-lifetime`
+#### `--signature-lifetime`
 
 Signature expiration time isn't limited by default. You can set it (in seconds) using this option.
 
 _Be careful_: this time shouldn't exceed lifetime of the current credentials or maximum time of the assumed role token.
 
-### `--ca`, `--no-verify-ssl`
+#### `--ca`, `--no-verify-ssl`
 
 By default, to verify target's SSL certificates `aws-sigv4-proxy` uses a system trusted root CA bundle
 or Mozilla WebPKI bundle if system one is unavailable.
@@ -121,7 +121,7 @@ It's useful when you operate in some kind of isolated environment with TLS inspe
 
 Or you can use the second **_dangerous_** option to disable SSL verification completely.
 
-### `--cert`, `--key`
+#### `--cert`, `--key`
 
 By default, `aws-sigv4-proxy` accepts non-encrypted connection (without TLS).
 To force using SSL for incoming connections, you should specify a path to valid SSL certificate and its private key,
