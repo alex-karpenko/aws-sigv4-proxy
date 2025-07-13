@@ -125,17 +125,6 @@ both are in the PEM format.
 
 File with SSL certificate may contain intermediate certificates (chain) as well.
 
-### AWS Credentials
-
-AWS credentials should be provided in any acceptable way [as AWS recommends](https://docs.aws.amazon.com/sdkref/latest/guide/creds-config-files.html):
-- using shared config and credentials files in `~/.aws/` folder;
-- via environment variables;
-- IAM roles assumed using WebIdentity (EKS case);
-- EC2 instance metadata;
-- any other supported way.
-
-Anyway, with security reason, there is no way to provide credentials directly to `aws-sigv4-proxy`.
-
 ### Helm chart
 
 To add Helm repository:
@@ -169,6 +158,17 @@ And run it:
 ```bash
 target/release/aws-sigv4-proxy --help
 ```
+
+### AWS Credentials
+
+AWS credentials should be provided in any acceptable way [as AWS recommends](https://docs.aws.amazon.com/sdkref/latest/guide/creds-config-files.html):
+- using shared config and credentials files in `~/.aws/` folder;
+- via environment variables;
+- IAM roles assumed using WebIdentity (EKS case);
+- EC2 instance metadata;
+- any other supported way.
+
+Anyway, with security reason, there is no way to provide credentials directly to `aws-sigv4-proxy`.
 
 ## TODO
 
