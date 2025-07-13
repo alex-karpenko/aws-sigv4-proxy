@@ -21,7 +21,7 @@ async fn handler(req: Request<Incoming>) -> anyhow::Result<Response<Full<Bytes>>
         (&Method::GET, "/") => health(),
         (&Method::GET, "/health") => health(),
         (&Method::GET, "/metrics") => metrics(),
-        // Return 404 Not Found for other routes.
+        // Return "404 Not Found" for other routes.
         _ => {
             let mut not_found = Response::new(Full::from("Not found\n"));
             *not_found.status_mut() = StatusCode::NOT_FOUND;

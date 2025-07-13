@@ -35,9 +35,9 @@ pub struct Config {
     #[arg(long, short = 'l', default_value = DEFAULT_LISTEN_ON, value_parser = Config::parse_listen_on)]
     pub listen_on: SocketAddr,
 
-    /// Skip SSL verification for outgoing connections
-    #[arg(long, default_value = "false")]
-    pub no_verify_ssl: bool,
+    /// Port to respond on health checks and metrics requests
+    #[arg(long, short = 'u', default_value_t = DEFAULT_UTILITY_PORT, value_parser = clap::value_parser!(u16).range(1..=65535))]
+    pub utility_port: u16,
 
     /// Proxy connect timeout in seconds
     #[arg(long, default_value_t = DEFAULT_CONNECT_TIMEOUT, value_parser = clap::value_parser!(u64).range(1..=3600))]
@@ -48,28 +48,28 @@ pub struct Config {
     pub request_timeout: u64,
 
     /// Signature expiration timeout in seconds
-    #[arg(long, short = 'e', value_parser = clap::value_parser!(u64).range(1..=3600))]
+    #[arg(long, value_parser = clap::value_parser!(u64).range(1..=3600))]
     pub signature_lifetime: Option<u64>,
 
-    /// Path to custom root CA bundle file (use system bundle by default)
+    /// Path to a custom root CA bundle file (use a system bundle by default)
     #[arg(long)]
     pub ca: Option<PathBuf>,
 
-    /// Path to server certificates file bundle (enables TLS, disabled by default)
+    /// Skip SSL verification for outgoing connections
+    #[arg(long, default_value = "false")]
+    pub no_verify_ssl: bool,
+
+    /// Path to a server certificates file bundle (enables TLS, disabled by default)
     #[arg(long, short = 'c', requires = "key")]
     pub cert: Option<PathBuf>,
 
     /// Path to certificate's private key file (enables TLS, disabled by default)
     #[arg(long, short = 'k', requires = "cert")]
     pub key: Option<PathBuf>,
-
-    /// Port to respond on health checks and metrics requests
-    #[arg(long, short = 'u', default_value_t = DEFAULT_UTILITY_PORT, value_parser = clap::value_parser!(u16).range(1..=65535))]
-    pub utility_port: u16,
 }
 
 impl Config {
-    pub async fn load_defaut_aws_config(&self) -> anyhow::Result<SdkConfig> {
+    pub async fn load_default_aws_config(&self) -> anyhow::Result<SdkConfig> {
         let aws_config = aws_config::defaults(BehaviorVersion::latest());
 
         // Set region if provided

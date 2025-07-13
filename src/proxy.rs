@@ -325,7 +325,7 @@ mod tests {
         assert_eq!(resp.status(), 200);
 
         let (parts, body) = resp.into_parts();
-        assert!(parts.status == 200);
+        assert_eq!(parts.status, 200);
 
         let bytes = body.collect().await.unwrap().to_bytes();
         assert!(!bytes.is_empty());

@@ -20,7 +20,7 @@ mod tests {
     const LOCALSTACK_IMAGE_NAME: &str = "localstack/localstack";
     const LOCALSTACK_IMAGE_TAG: &str = "4.6";
     const LOCALSTACK_IMAGE_DEFAULT_WAIT: u64 = 3000;
-    const LOCALSTACK_DEFAULT_POSRT: u16 = 4566;
+    const LOCALSTACK_DEFAULT_PORT: u16 = 4566;
 
     #[derive(Default, Debug, Clone)]
     pub struct LocalStackImage {}
@@ -67,7 +67,7 @@ mod tests {
         }
 
         pub async fn get_port(&self) -> anyhow::Result<u16> {
-            Ok(self.container.get_host_port_ipv4(LOCALSTACK_DEFAULT_POSRT).await?)
+            Ok(self.container.get_host_port_ipv4(LOCALSTACK_DEFAULT_PORT).await?)
         }
 
         pub async fn get_host(&self) -> anyhow::Result<String> {

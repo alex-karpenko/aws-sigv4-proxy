@@ -6,9 +6,9 @@ use tokio::{
 };
 use tracing::{debug, info};
 
-/// Alias for shutdown channel receiver type
+/// Alias for a shutdown channel receiver type
 pub type ShutdownReceiver = watch::Receiver<bool>;
-/// Alias for shutdown channel sender type
+/// Alias for a shutdown channel sender type
 pub type ShutdownSender = watch::Sender<bool>;
 
 /// Holds handlers to all expected sources

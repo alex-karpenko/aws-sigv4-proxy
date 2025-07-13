@@ -10,7 +10,7 @@ async fn main() -> anyhow::Result<()> {
     let cfg = Config::parse();
     debug!(?cfg, "without aws config applied");
 
-    let aws_config = cfg.load_defaut_aws_config().await?;
+    let aws_config = cfg.load_default_aws_config().await?;
     let cfg = cfg.apply_aws_config(&aws_config).await?;
     let credentials_provider = CachedCredentials::new(&aws_config, &cfg.assume_role, cfg.signature_lifetime).await?;
     debug!(?cfg, "with aws config");

@@ -99,12 +99,12 @@ impl CachedCredentials {
         if to_refresh {
             // Refresh credentials
             debug!("refreshing credentials");
-            let new_creads = self.provider.provide_credentials().await?;
+            let new_creds = self.provider.provide_credentials().await?;
             {
-                *self.next_refresh.write().await = new_creads
+                *self.next_refresh.write().await = new_creds
                     .expiry()
                     .map(|e| e.checked_sub(self.refresh_window.unwrap()).unwrap());
-                *self.cached.write().await = new_creads;
+                *self.cached.write().await = new_creds;
             }
             self.in_refresh.store(false, Ordering::Release);
         }
