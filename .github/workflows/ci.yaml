@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "30 10 * * 5"
+permissions:
+  contents: read
 env:
   CI: true
 
