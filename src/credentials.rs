@@ -88,7 +88,23 @@ impl CachedCredentials {
 
     pub async fn provide_credentials(&self) -> anyhow::Result<Credentials> {
         let to_refresh = if let Some(next_refresh) = self.next_refresh.read().await.as_ref()
-            && next_refresh <= &SystemTime::now()
+            && {
+                let now = SystemTime::now();
+                // If next_refresh is Some, then:
+                // - credentials has expiration time (is Some)
+                // - refresh_window is Some
+                // - so we can safely unwrap their values
+                next_refresh <= &now // next_refresh time has arrived (fast check)
+                    || self
+                        .cached
+                        .read()
+                        .await
+                        .expiry()
+                        .unwrap()
+                        .checked_sub(self.refresh_window.unwrap())
+                        .unwrap()
+                        <= now // or now is over refresh window (precise but slow check)
+            }
             && !self.in_refresh.fetch_or(true, Ordering::Acquire)
         {
             true

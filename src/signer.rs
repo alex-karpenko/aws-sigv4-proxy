@@ -39,7 +39,7 @@ impl ProxySigner {
     #[inline]
     async fn provide_credentials(&self) -> anyhow::Result<Credentials> {
         let creds = self.credentials_provider.provide_credentials().await?;
-        debug!(expry = ?(creds.expiry().unwrap_or_else(SystemTime::now).duration_since(SystemTime::now())?));
+        debug!(expiry = ?(creds.expiry().unwrap_or_else(SystemTime::now).duration_since(SystemTime::now())?));
         Ok(creds)
     }
 
