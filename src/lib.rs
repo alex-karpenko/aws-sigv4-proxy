@@ -1,6 +1,5 @@
 pub mod client;
 pub mod config;
-pub mod credentials;
 pub mod proxy;
 pub mod signals;
 pub mod signer;

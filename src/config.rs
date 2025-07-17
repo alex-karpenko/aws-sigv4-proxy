@@ -1,16 +1,21 @@
 use anyhow::Error;
 use aws_config::{AppName, BehaviorVersion, Region, SdkConfig};
+use aws_credential_types::provider::ProvideCredentials;
+use aws_smithy_runtime::client::identity::IdentityCache;
 use clap::Parser;
 use http::Uri;
 use std::{
     net::{IpAddr, SocketAddr},
     path::PathBuf,
+    time::Duration,
 };
 
 pub const DEFAULT_CONNECT_TIMEOUT: u64 = 10;
 pub const DEFAULT_REQUEST_TIMEOUT: u64 = 30;
 pub const DEFAULT_LISTEN_ON: &str = "0.0.0.0:8080";
 pub const DEFAULT_UTILITY_PORT: u16 = 9090;
+
+const DEFAULT_IDENTITY_CACHE_BUFFER_TIME: Duration = Duration::from_secs(60);
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -70,7 +75,13 @@ pub struct Config {
 
 impl Config {
     pub async fn load_default_aws_config(&self) -> anyhow::Result<SdkConfig> {
-        let aws_config = aws_config::defaults(BehaviorVersion::latest());
+        let buffer_time = self
+            .signature_lifetime
+            .map(Duration::from_secs)
+            .unwrap_or(Duration::ZERO)
+            + DEFAULT_IDENTITY_CACHE_BUFFER_TIME;
+        let identity_cache = IdentityCache::lazy().buffer_time(buffer_time).build();
+        let aws_config = aws_config::defaults(BehaviorVersion::latest()).identity_cache(identity_cache);
 
         // Set region if provided
         let aws_config = if let Some(region) = &self.region {
@@ -81,6 +92,20 @@ impl Config {
 
         // Finish config
         Ok(aws_config.app_name(AppName::new(env!("CARGO_PKG_NAME"))?).load().await)
+    }
+
+    pub async fn get_credentials_provider(&self, aws_config: &SdkConfig) -> Box<dyn ProvideCredentials> {
+        if let Some(role_arn) = self.assume_role.as_ref() {
+            let provider = aws_config::sts::AssumeRoleProvider::builder(role_arn)
+                .session_name(format!("{}-v{}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION")))
+                .configure(aws_config)
+                .build()
+                .await;
+            Box::new(provider)
+        } else {
+            let provider = aws_config.credentials_provider().unwrap();
+            Box::new(provider)
+        }
     }
 
     pub async fn apply_aws_config(self, aws_config: &SdkConfig) -> anyhow::Result<Self> {

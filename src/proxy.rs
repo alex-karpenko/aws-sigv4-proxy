@@ -1,10 +1,10 @@
 use crate::{
     client::{HttpsClient, create_https_client},
     config::Config,
-    credentials::CachedCredentials,
     signals::ShutdownReceiver,
     signer::ProxySigner,
 };
+use aws_credential_types::provider::ProvideCredentials;
 use aws_sigv4::http_request::{SignableBody, SignableRequest};
 use http::{
     Request, Response, Uri,
@@ -43,7 +43,7 @@ pub struct ProxyHandler {
 }
 
 impl ProxyHandler {
-    pub fn new(config: &Config, credentials_provider: CachedCredentials) -> anyhow::Result<Self> {
+    pub fn new(config: &Config, credentials_provider: Box<dyn ProvideCredentials>) -> anyhow::Result<Self> {
         let signer = ProxySigner::new(config, credentials_provider);
         let forward_to = config.forward_to.clone();
         let client = create_https_client(config)?;
@@ -120,7 +120,7 @@ impl Service<Request<Incoming>> for ProxyHandler {
 
 pub async fn listener(
     cfg: &Config,
-    credentials_provider: CachedCredentials,
+    credentials_provider: Box<dyn ProvideCredentials>,
     mut rx: ShutdownReceiver,
 ) -> anyhow::Result<JoinHandle<anyhow::Result<()>>> {
     let req_handler = Arc::new(ProxyHandler::new(cfg, credentials_provider)?);
@@ -306,9 +306,8 @@ mod tests {
         init().await;
 
         let (config, aws_config) = get_test_local_config(Some("s3".to_string()), None).await.unwrap();
-        let credentials_provider = CachedCredentials::new(&aws_config, &config.assume_role, None)
-            .await
-            .unwrap();
+        let credentials_provider = config.get_credentials_provider(&aws_config).await;
+
         let endpoint = aws_config.endpoint_url().unwrap();
         let body = ByteStream::new(SdkBody::from("test-body"));
         let _s3_client = setup_test_s3(&aws_config, BUCKET_NAME, FILE_NAME, body).await.unwrap();

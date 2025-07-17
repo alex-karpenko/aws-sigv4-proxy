@@ -1,4 +1,4 @@
-use aws_sigv4_proxy::{config::Config, credentials::CachedCredentials, proxy, signals, utils};
+use aws_sigv4_proxy::{config::Config, proxy, signals, utils};
 use clap::Parser;
 use tokio::{select, sync::watch};
 use tracing::{debug, error, info};
@@ -12,7 +12,7 @@ async fn main() -> anyhow::Result<()> {
 
     let aws_config = cfg.load_default_aws_config().await?;
     let cfg = cfg.apply_aws_config(&aws_config).await?;
-    let credentials_provider = CachedCredentials::new(&aws_config, &cfg.assume_role, cfg.signature_lifetime).await?;
+    let credentials_provider = cfg.get_credentials_provider(&aws_config).await;
     debug!(?cfg, "with aws config");
 
     info!(service = %cfg.service.as_ref().unwrap(), region = %cfg.region.as_ref().unwrap(), forward_to = %cfg.forward_to, "Current configuration");
