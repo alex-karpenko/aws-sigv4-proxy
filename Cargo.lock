@@ -385,6 +385,7 @@ dependencies = [
  "hyper-rustls 0.27.7",
  "hyper-util",
  "rstest",
+ "rustls 0.23.31",
  "testcontainers",
  "tokio",
  "tokio-rustls 0.26.2",
