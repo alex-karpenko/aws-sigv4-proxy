@@ -1,6 +1,6 @@
 [package]
 name = "aws-sigv4-proxy"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Oleksii Karpenko <alexkarpenko@yahoo.com>"]
 description = "Proxy to apply AWS SigV4 to requests"
 rust-version = "1.88"
@@ -19,7 +19,7 @@ aws-smithy-runtime-api = { version = "1.8.3", default-features = false }
 clap = { version = "4.5.41", features = ["derive", "env"] }
 http = "1.3.1"
 http-body-util = "0.1.3"
-hyper = { version = "1.6.0", default-features = false, features = ["http1"] }
+hyper = { version = "1.7.0", default-features = false, features = ["http1"] }
 hyper-rustls = { version = "0.27.7", default-features = false, features = [
     "http1",
     "aws-lc-rs",
@@ -35,19 +35,14 @@ hyper-util = { version = "0.1.15", default-features = false, features = [
     "server-graceful",
     "tokio",
 ] }
-tokio = { version = "1.46.1", default-features = false, features = [
-    "macros",
-    "rt-multi-thread",
-    "signal",
-] }
-tokio-rustls = "0.26.2"
+rustls = { version = "0.23.31", features = ["aws-lc-rs"], default-features = false }
+tokio = { version = "1.46.1", default-features = false, features = ["macros", "rt-multi-thread", "signal"] }
+tokio-rustls = { version = "0.26.2", features = ["aws-lc-rs"] }
 tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
-webpki-roots = "1.0.0"
+webpki-roots = "1.0.2"
 
 [dev-dependencies]
 aws-sdk-s3 = { version = "1.96.0", features = ["behavior-version-latest"] }
-rstest = "0.25.0"
-testcontainers = { version = "0.24.0", default-features = false, features = [
-    "aws-lc-rs",
-] }
+rstest = "0.26.1"
+testcontainers = { version = "0.25.0", default-features = false, features = ["aws-lc-rs"] }

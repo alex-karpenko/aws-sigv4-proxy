@@ -222,6 +222,7 @@ mod tests {
     use aws_config::SdkConfig;
     use aws_sdk_s3::primitives::{ByteStream, SdkBody};
     use http::Method;
+    use rustls::crypto::CryptoProvider;
     use tokio::sync::OnceCell;
 
     async fn init() {
@@ -230,6 +231,7 @@ mod tests {
         INITED
             .get_or_init(async || {
                 tracing_subscriber::fmt::init();
+                let _ = CryptoProvider::install_default(rustls::crypto::aws_lc_rs::default_provider());
             })
             .await;
     }
