@@ -39,7 +39,7 @@ rustls = { version = "0.23.31", features = ["aws-lc-rs"], default-features = fal
 tokio = { version = "1.46.1", default-features = false, features = ["macros", "rt-multi-thread", "signal"] }
 tokio-rustls = { version = "0.26.2", features = ["aws-lc-rs"] }
 tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 webpki-roots = "1.0.2"
 
 [dev-dependencies]
