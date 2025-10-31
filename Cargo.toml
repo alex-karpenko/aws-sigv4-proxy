@@ -1,6 +1,6 @@
 [package]
 name = "aws-sigv4-proxy"
-version = "0.1.6"
+version = "0.1.7"
 authors = ["Oleksii Karpenko <alexkarpenko@yahoo.com>"]
 description = "Proxy to apply AWS SigV4 to requests"
 rust-version = "1.88"
