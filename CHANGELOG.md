@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.13] - 2026-10-23
+### Details
+#### Fixed
+- Update dependencies to fix known vulnerabilities by @alex-karpenko in [#22](https://github.com/alex-karpenko/aws-sigv4-proxy/pull/22)
+
 ## [0.1.12] - 2026-07-25
 ### Details
 #### Fixed
@@ -66,6 +71,7 @@ All notable changes to this project will be documented in this file.
 ## New Contributors
 * @alex-karpenko made their first contribution in [#1](https://github.com/alex-karpenko/aws-sigv4-proxy/pull/1)
 
+[0.1.13]: https://github.com/alex-karpenko/aws-sigv4-proxy/compare/v0.1.12..v0.1.13
 [0.1.12]: https://github.com/alex-karpenko/aws-sigv4-proxy/compare/v0.1.11..v0.1.12
 [0.1.11]: https://github.com/alex-karpenko/aws-sigv4-proxy/compare/v0.1.10..v0.1.11
 [0.1.10]: https://github.com/alex-karpenko/aws-sigv4-proxy/compare/v0.1.9..v0.1.10
